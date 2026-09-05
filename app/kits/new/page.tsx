@@ -45,9 +45,17 @@ export default function NewKitPage() {
         days,
       });
 
-      const kit = response.data?.kit ?? response.data;
-
-      const kitId = kit?._id ?? kit?.id;
+      const kitId =
+      response.data?.id ??
+      response.data?.kit?._id ??
+      response.data?.kit?.id ??
+      response.data?.data?._id ??
+      response.data?.data?.id;
+  
+    if (!kitId) {
+      console.error("Create kit response:", response.data);
+      throw new Error("Kit ID was not returned by the backend.");
+    }
 
       if (!kitId) {
         throw new Error("Kit ID was not returned by the backend.");
